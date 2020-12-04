@@ -47,4 +47,18 @@ public class DtoPlayer {
         dto.put("nombre",  this.player.getUserName());
         return  dto;
     }
+
+    public Map<String, Object> makePlayerScoreDTO(Player p){
+        Map<String, Object> dto = new LinkedHashMap<>();
+        Map<String, Object> score = new LinkedHashMap<>();
+        dto.put("id", p.getId());
+        dto.put("email", p.getEmail());
+        score.put("total", p.getTotalScore());
+        score.put("won", p.getWonScore());
+        score.put("lost", p.getLostScore());
+        score.put("tied", p.getTiedScore());
+        dto.put("score", score);
+      return dto;
+    }
+
 }

@@ -1,22 +1,27 @@
 package com.codeoftheweb.salvo.Controller;
 
+import Util.Util;
 import com.codeoftheweb.salvo.DTO.*;
+import com.codeoftheweb.salvo.Model.Game;
 import com.codeoftheweb.salvo.Model.GamePlayer;
+import com.codeoftheweb.salvo.Model.Player;
 import com.codeoftheweb.salvo.Repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.*;
 import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api")
-public class SalvoController {
+public class AppController {
 
-    @Autowired
-    RepositoryGame repositoryGame;
+
 
     @Autowired
     RepositoryGamePlayer repositoryGamePlayer;
@@ -30,23 +35,22 @@ public class SalvoController {
     @Autowired
     RepositorySalvo repositorySalvo;
 
-    @RequestMapping("/players")
-    public List<Map<String, Object>>  getPlayerAll(){
-        DtoPlayer dtoPlayer= new DtoPlayer();
-        return repositoryPlayer.findAll()
-                .stream()
-                .map(player -> dtoPlayer.makePlayerDTO(player))
-                .collect(Collectors.toList());
+    @Autowired
+    RepositoryScore repositoryScore;
+
+
+    static boolean isGuest(Authentication authentication) {
+        return authentication == null || authentication instanceof AnonymousAuthenticationToken;
     }
 
-    @RequestMapping("/games")
-    public List<Map<String, Object>>getGameAll(){
-        DtoGame dtoGame= new DtoGame();
-        return  repositoryGame.findAll()
-                .stream()
-                .map(game -> dtoGame.makeGameDTO(game))
-                .collect(Collectors.toList());
+    static Map<String, Object> makeMap(String key, Object value) {
+        Map<String, Object> map = new LinkedHashMap<>();
+        map.put(key, value);
+        return map;
     }
+
+
+
 
     @RequestMapping("/gamePlayers")
     public List<Map<String, Object>>getGamePlayersAll(){
@@ -73,6 +77,13 @@ public class SalvoController {
                 .stream()
                 .map(salvo -> dtoSalvo.makeSalvoDTO(salvo))
                 .collect(Collectors.toList());
+    }
+
+    @RequestMapping("/leaderboard")
+    public List<Map<String,Object>> getLeaderboard(){
+        DtoPlayer dtoPlayer = new DtoPlayer();
+        return repositoryPlayer.findAll().stream()
+                .map(p -> dtoPlayer.makePlayerScoreDTO(p)).collect(Collectors.toList());
     }
 
     @RequestMapping("/game_view/{gameId}")

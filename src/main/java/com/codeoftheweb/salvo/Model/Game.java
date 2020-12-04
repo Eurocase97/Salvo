@@ -10,16 +10,23 @@ public class Game {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "native")
     @GenericGenerator(name = "native", strategy = "native")
-    private  int id;
+    private long id;
 
     private Date date;
 
    @OneToMany(mappedBy="game", fetch=FetchType.EAGER)
    private Set<GamePlayer> gamePlayers ;
 
-   public Game() {  date = new Date(); gamePlayers= new LinkedHashSet<GamePlayer>(); }
+    @OneToMany(mappedBy="game", fetch=FetchType.EAGER)
+    private Set<Score>  scores ;
 
-   public int getId() {
+   public Game() {
+        date = new Date();
+        gamePlayers= new LinkedHashSet<GamePlayer>();
+        scores= new LinkedHashSet<Score>();
+   }
+
+   public long getId() {
         return id;
     }
 
@@ -46,4 +53,10 @@ public class Game {
    public boolean addGamePlayer(GamePlayer newGamePlayer){
         return  gamePlayers.add(newGamePlayer);
    }
+
+    public Set<Score> getScores() { return scores;}
+
+    public boolean addGameScore(Score newScore){
+        return  scores.add(newScore);
+    }
 }

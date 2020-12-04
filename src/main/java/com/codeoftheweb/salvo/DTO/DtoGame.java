@@ -42,17 +42,36 @@ public class DtoGame {
                 .stream()
                 .map(gamePlayer -> dtoGamePlayer.makeGamePlayerDTO(gamePlayer))
                 .collect(Collectors.toList()));
+        dto.put("scores", game.getGamePlayers()
+                .stream()
+                .flatMap(gamePlayer -> gamePlayer.getPlayer().getScores()
+                        .stream()
+                        .map(score -> {
+                            DtoScore scoreDTO = new DtoScore();
+                            return scoreDTO.makeScoreDto(score);
+                        }))
+                .collect(Collectors.toList()));
         return dto;
     }
 
-    public Map<String,  Object> makeGameDTO(){
-        DtoGamePlayer dtoGamePlayer= new DtoGamePlayer();
+    public Map<String, Object> makeGameDTO() {
         Map<String, Object> dto = new LinkedHashMap<>();
         dto.put("id", this.game.getId());
-        dto.put("created",  this.game.getDate());
-        dto.put("gamePlayers",  this.game.getGamePlayers()
+        dto.put("created", this.game.getDate());
+        dto.put("gamePlayers", this.game.getGamePlayers()
                 .stream()
-                .map(gamePlayer -> dtoGamePlayer.makeGamePlayerDTO(gamePlayer))
+                .map(gamePlayer -> {
+                    DtoGamePlayer gamePlayerDTO = new DtoGamePlayer(gamePlayer);
+                    return gamePlayerDTO.makeGamePlayerDTO();})
+                .collect(Collectors.toList()));
+        dto.put("scores", this.game.getGamePlayers()
+                .stream()
+                .flatMap(gamePlayer -> gamePlayer.getPlayer().getScores()
+                        .stream()
+                        .map(score -> {
+                            DtoScore scoreDTO = new DtoScore();
+                            return scoreDTO.makeScoreDto(score);
+                        }))
                 .collect(Collectors.toList()));
         return dto;
     }
