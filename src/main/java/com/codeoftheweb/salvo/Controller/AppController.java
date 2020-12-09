@@ -1,17 +1,11 @@
 package com.codeoftheweb.salvo.Controller;
 
-import Util.Util;
 import com.codeoftheweb.salvo.DTO.*;
-import com.codeoftheweb.salvo.Model.Game;
 import com.codeoftheweb.salvo.Model.GamePlayer;
-import com.codeoftheweb.salvo.Model.Player;
 import com.codeoftheweb.salvo.Repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.*;
@@ -20,8 +14,6 @@ import java.util.stream.Collectors;
 @RestController
 @RequestMapping("/api")
 public class AppController {
-
-
 
     @Autowired
     RepositoryGamePlayer repositoryGamePlayer;
@@ -38,7 +30,6 @@ public class AppController {
     @Autowired
     RepositoryScore repositoryScore;
 
-
     static boolean isGuest(Authentication authentication) {
         return authentication == null || authentication instanceof AnonymousAuthenticationToken;
     }
@@ -48,8 +39,6 @@ public class AppController {
         map.put(key, value);
         return map;
     }
-
-
 
 
     @RequestMapping("/gamePlayers")

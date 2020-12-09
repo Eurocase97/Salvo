@@ -10,11 +10,15 @@ import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+
+@RestController
+@RequestMapping("/api")
 public class GameController {
 
     static boolean isGuest(Authentication authentication) {
@@ -30,7 +34,7 @@ public class GameController {
     public Map<String, Object> getGameAll(Authentication authentication) {
         Map<String,  Object>  dto = new LinkedHashMap<>();
 
-        if((isGuest(authentication))){
+        if(isGuest(authentication)){
             dto.put("player", "Guest");
         }else{
             Player player  = repositoryPlayer.findByEmail(authentication.getName());

@@ -1,10 +1,7 @@
-package Util;
+package com.codeoftheweb.salvo.Util;
 
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
-
-import java.util.LinkedHashMap;
-import java.util.Map;
 
 public class Util {
 
