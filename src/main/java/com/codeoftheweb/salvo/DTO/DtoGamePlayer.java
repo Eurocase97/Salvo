@@ -2,6 +2,7 @@ package com.codeoftheweb.salvo.DTO;
 
 import com.codeoftheweb.salvo.Model.GamePlayer;
 
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -49,8 +50,10 @@ public class DtoGamePlayer {
         return dto;
     }
 
-    public Map<String,  Object> makeGameViewDTO(){
+    public  Map<String,  Object> makeGameViewDTO(){
         Map<String, Object> dto = new LinkedHashMap<>();
+        dto.put("self", new ArrayList<>());
+        dto.put("opponent", new ArrayList<>());
         dto.put("id", this.gamePlayer.getGame().getId());
         dto.put("created", this.gamePlayer.getGame().getDate());
         dto.put("gamePlayers", this.gamePlayer.getGame().getGamePlayers()
