@@ -72,7 +72,7 @@ public class DtoGamePlayer {
                 .flatMap(gamePlayer1 -> gamePlayer1.getSalvos()
                         .stream()
                         .map(salvo -> {DtoSalvo dtoSalvo = new DtoSalvo();
-                                      return  dtoSalvo.makeSalvoDTO(salvo);
+                            return  dtoSalvo.makeSalvoDTO(salvo);
                         }))
                 .collect(Collectors.toList()));
         dto.put("hits", hits);

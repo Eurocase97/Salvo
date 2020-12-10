@@ -1,6 +1,6 @@
 package com.codeoftheweb.salvo.Controller;
 
-import Util.Util;
+
 import com.codeoftheweb.salvo.DTO.*;
 import com.codeoftheweb.salvo.Model.Game;
 import com.codeoftheweb.salvo.Model.GamePlayer;
@@ -20,8 +20,6 @@ import java.util.stream.Collectors;
 @RestController
 @RequestMapping("/api")
 public class AppController {
-
-
 
     @Autowired
     RepositoryGamePlayer repositoryGamePlayer;
@@ -48,8 +46,6 @@ public class AppController {
         map.put(key, value);
         return map;
     }
-
-
 
 
     @RequestMapping("/gamePlayers")
