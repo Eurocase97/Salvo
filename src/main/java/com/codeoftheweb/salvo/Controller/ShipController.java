@@ -55,7 +55,7 @@ public class ShipController {
         if(player.getId()== gameGamePlayer.getPlayer().getId()){
             if(gameGamePlayer.getShips().size()+ships.size()<=5){
                 setGamePlyerListShips(ships, gameGamePlayer);
-                repositoryGamePlayer.save(gameGamePlayer);
+                repositoryShip.saveAll(ships);
                 return new ResponseEntity(Util.makeMap("OK", "ok"), HttpStatus.CREATED);
             }else {
                 return new ResponseEntity<>(Util.makeMap("error", "Ships full"), HttpStatus.FORBIDDEN);
