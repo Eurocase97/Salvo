@@ -74,19 +74,13 @@ public class GameController {
         if (Util.isGuest(authentication)) {
             return new ResponseEntity<>(Util.makeMap("error", "Is guest"), HttpStatus.UNAUTHORIZED);
         }
-
         Player player = repositoryPlayer.findByEmail(authentication.getName());
-
         Game gameToJoin = repositoryGame.getOne(idGame);
-
         if (gameToJoin == null) {
             return new ResponseEntity<>(Util.makeMap("error", "No such game."), HttpStatus.FORBIDDEN);
         }
-
         long gamePlayersCount = gameToJoin.getGamePlayers().size();
-
         if (gamePlayersCount == 1) {
-
             GamePlayer gamePlayer = repositoryGamePlayer.save(new GamePlayer(gameToJoin, player));
             return new ResponseEntity<>(Util.makeMap("gpid", gamePlayer.getId()), HttpStatus.CREATED);
         }else{

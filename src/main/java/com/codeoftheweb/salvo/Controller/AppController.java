@@ -48,7 +48,7 @@ public class AppController {
             return new ResponseEntity<>(Util.makeMap("error", "Database error. GamePlayer not found."), HttpStatus.INTERNAL_SERVER_ERROR);
         if (player.getId() != gamePlayer.getPlayer().getId())
             return new ResponseEntity<>(Util.makeMap("error", "This is not your game!"), HttpStatus.UNAUTHORIZED);
-        DtoGamePlayer dtoGamePlayer = new DtoGamePlayer();
-        return new ResponseEntity<>(dtoGamePlayer.makeGamePlayerDTO(gamePlayer), HttpStatus.ACCEPTED);
+        DtoGamePlayer dtoGamePlayer = new DtoGamePlayer(gamePlayer);
+        return new ResponseEntity<>(dtoGamePlayer.makeGameViewDTO(), HttpStatus.ACCEPTED);
     }
 }

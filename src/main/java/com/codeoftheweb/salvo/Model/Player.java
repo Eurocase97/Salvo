@@ -4,6 +4,7 @@ import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import java.util.LinkedHashSet;
+import java.util.Objects;
 import java.util.Set;
 
 @Entity
@@ -102,6 +103,22 @@ public class Player {
         return  getWonScore() + getLostScore() + getTiedScore() ;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        boolean rta=false;
+        if (o!=null){
+            if (!(o instanceof Player)){
+                Player aux = (Player) o;
+                if(aux.getId()==this.id){
+                    rta=true;
+                }
+            }
+        }
+         return rta;
+    }
 
-
+    @Override
+    public int hashCode() {
+        return 0;
+    }
 }
