@@ -12,6 +12,7 @@ import com.codeoftheweb.salvo.Util.Util;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,6 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.stream.Collectors;
+
 
 @RestController
 @RequestMapping("/api")
@@ -74,13 +76,19 @@ public class GameController {
         if (Util.isGuest(authentication)) {
             return new ResponseEntity<>(Util.makeMap("error", "Is guest"), HttpStatus.UNAUTHORIZED);
         }
+
         Player player = repositoryPlayer.findByEmail(authentication.getName());
+
         Game gameToJoin = repositoryGame.getOne(idGame);
+
         if (gameToJoin == null) {
             return new ResponseEntity<>(Util.makeMap("error", "No such game."), HttpStatus.FORBIDDEN);
         }
+
         long gamePlayersCount = gameToJoin.getGamePlayers().size();
+
         if (gamePlayersCount == 1) {
+
             GamePlayer gamePlayer = repositoryGamePlayer.save(new GamePlayer(gameToJoin, player));
             return new ResponseEntity<>(Util.makeMap("gpid", gamePlayer.getId()), HttpStatus.CREATED);
         }else{
@@ -88,3 +96,5 @@ public class GameController {
         }
     }
 }
+
+

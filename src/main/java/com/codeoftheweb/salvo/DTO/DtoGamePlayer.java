@@ -53,8 +53,8 @@ public class DtoGamePlayer {
     public Map<String,  Object> makeGameViewDTO(){
         Map<String, Object> dto = new LinkedHashMap<>();
         Map<String, Object> hits= new LinkedHashMap<>();
-        hits.put("self", new ArrayList<>());
-        hits.put("opponent", new ArrayList<>());
+        dto.put("self", new ArrayList<>());
+        dto.put("opponent", new ArrayList<>());
         dto.put("id", this.gamePlayer.getGame().getId());
         dto.put("created", this.gamePlayer.getGame().getDate());
         dto.put("gamePlayers", this.gamePlayer.getGame().getGamePlayers()
@@ -72,7 +72,7 @@ public class DtoGamePlayer {
                 .flatMap(gamePlayer1 -> gamePlayer1.getSalvos()
                         .stream()
                         .map(salvo -> {DtoSalvo dtoSalvo = new DtoSalvo();
-                            return  dtoSalvo.makeSalvoDTO(salvo);
+                                      return  dtoSalvo.makeSalvoDTO(salvo);
                         }))
                 .collect(Collectors.toList()));
         dto.put("hits", hits);
