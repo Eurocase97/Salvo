@@ -45,7 +45,7 @@ public class SalvoController {
                         salvo.setTurn(gp.getSalvos().size()+1);
                         salvo.setGamePlayer(gp);
                         repositorySalvo.save(salvo);
-                        return new ResponseEntity<>(Util.makeMap("OK", "ok"), HttpStatus.CREATED);
+                        return new ResponseEntity<>(Util.makeMap("OK", "You did it, you fired"), HttpStatus.CREATED);
                     }else{
                         return new ResponseEntity<>(Util.makeMap("error", "this not your turn"), HttpStatus.FORBIDDEN);
                     }
