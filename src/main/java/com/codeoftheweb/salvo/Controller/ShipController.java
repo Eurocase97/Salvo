@@ -32,7 +32,7 @@ public class ShipController {
 
     @Autowired
     RepositoryPlayer repositoryPlayer;
-    /*  NO SIRVE SE USA EN GEMEVIEW
+    /*  NO SIRVE SE USA EN GAMEVIEW
     @RequestMapping(path = "api/games/players/gamePlayerID/ships", method = RequestMethod.GET)
     public ResponseEntity<Map<String, Object>> getShips(@PathVariable Long gamePlayerID){
         GamePlayer gamePlayer= repositoryGamePlayer.findById(gamePlayerID).get();
@@ -49,7 +49,7 @@ public class ShipController {
     }*/
 
     @RequestMapping(path = "/games/players/{gamePlayerID}/ships", method = RequestMethod.POST)
-    public ResponseEntity<Map<String, Object>> setShips(@PathVariable Long gamePlayerID, @RequestBody List<Ship> ships, Authentication authentication) {
+    public ResponseEntity<Map<String, Object>> addShips(@PathVariable Long gamePlayerID, @RequestBody List<Ship> ships, Authentication authentication) {
         Player player = repositoryPlayer.findByEmail(authentication.getName());
         GamePlayer gameGamePlayer= repositoryGamePlayer.findById(gamePlayerID).get();
         if(player.getId()== gameGamePlayer.getPlayer().getId()){

@@ -102,8 +102,8 @@ public class SalvoApplication {
 			ArrayList<String> l5= new ArrayList<String>();
 			l4.add("I3");
 			l5.add("E3");
-			Salvo s1= new Salvo(gp1, l4, 1);
-			Salvo s2= new Salvo(gp2, l5, 1);
+			Salvo s1= new Salvo(gp1, l4);
+			Salvo s2= new Salvo(gp2, l5);
 
 			repositorySalvo.save(s1);
 			repositorySalvo.save(s2);

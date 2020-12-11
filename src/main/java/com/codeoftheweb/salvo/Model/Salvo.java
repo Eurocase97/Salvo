@@ -25,12 +25,13 @@ public class Salvo {
 
     public Salvo() {
         locations = new ArrayList<String>();
+        turn=0;
     }
 
-    public Salvo(GamePlayer gamePlayer, List  locations, int turn) {
+    public Salvo(GamePlayer gamePlayer, List  locations) {
         this.gamePlayer = gamePlayer;
         this.locations = locations;
-        this.turn = turn;
+        turn = 0;
     }
 
     public Long getId() {
