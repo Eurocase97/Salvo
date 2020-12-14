@@ -27,14 +27,17 @@ public class GamePlayer {
     @OneToMany(mappedBy="gamePlayer", fetch=FetchType.EAGER)
     private Set<Salvo> salvos;
 
-    public  GamePlayer(){ships = new LinkedHashSet<Ship>(); salvos= new LinkedHashSet<Salvo>();};
+    public GamePlayer(){
+        ships = new HashSet<Ship>();
+        salvos= new HashSet<Salvo>();
+    }
 
     public GamePlayer(Game g, Player player){
         this.game=g;
         this.player=player;
         date= new Date();
-        ships= new LinkedHashSet<Ship>();
-        salvos= new LinkedHashSet<Salvo>();
+        ships= new HashSet<Ship>();
+        salvos= new HashSet<Salvo>();
     }
 
     public long getId() {

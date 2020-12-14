@@ -86,6 +86,6 @@ public class AppController {
     public Map<String,Object> getGameView(@PathVariable long gameId){
         GamePlayer gamePlayer= repositoryGamePlayer.findById(gameId).get();
         DtoGamePlayer dtoGamePlayer= new DtoGamePlayer(gamePlayer);
-    return dtoGamePlayer.makeGameViewDTO();
+        return dtoGamePlayer.makeGameViewDTO();
     }
 }

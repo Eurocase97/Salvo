@@ -39,8 +39,7 @@ public class SalvoController {
         if(p1!=null){
             GamePlayer gp= repositoryGamePlayer.getOne(gamePlayerID);
             if(p1.getId()==gp.getPlayer().getId()){
-                try {
-                    GamePlayer opponent = getOpponent(gp);
+                    GamePlayer opponent = Util.getOpponent(gp);
                     if(opponent.getSalvos().size() >= gp.getSalvos().size()){
                         salvo.setTurn(gp.getSalvos().size()+1);
                         salvo.setGamePlayer(gp);
@@ -49,24 +48,11 @@ public class SalvoController {
                     }else{
                         return new ResponseEntity<>(Util.makeMap("error", "this not your turn"), HttpStatus.FORBIDDEN);
                     }
-                }catch (Exception e){
-                    return new ResponseEntity<>(Util.makeMap("error", "You have not opponent"), HttpStatus.UNAUTHORIZED);
-                }
             }else {
                 return new ResponseEntity<>(Util.makeMap("error", "This no your seccion"), HttpStatus.UNAUTHORIZED);
             }
         }else{
             return new ResponseEntity<>(Util.makeMap("error", "This no your seccion"), HttpStatus.UNAUTHORIZED);
         }
-    }
-
-    private GamePlayer getOpponent(GamePlayer myself)throws Exception {
-        GamePlayer opponent=null;
-        for( GamePlayer g :myself.getGame().getGamePlayers()){
-            if(g.getId()!=myself.getId()){
-                opponent=g;
-            }
-        }
-        return opponent;
     }
 }
