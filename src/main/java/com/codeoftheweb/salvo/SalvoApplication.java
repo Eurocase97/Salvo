@@ -47,9 +47,10 @@ public class SalvoApplication {
 
 			Player p1= new Player("Jack Bauer", "j.bauer@ctu.gov", passwordEncoder().encode("123"));
 			Player p2= new Player("Chloe O'Brian ", "juan@gmail",passwordEncoder().encode("123"));
-
+			Player p3= new Player("kun", "a@gmail",passwordEncoder().encode("123") );
 			repositoryPlayer.save(p1);
 			repositoryPlayer.save(p2);
+			repositoryPlayer.save(p3);
 
 			Game g1= new Game();
 			Game g2= new Game();
@@ -59,11 +60,12 @@ public class SalvoApplication {
 
 			GamePlayer gp1 =  new GamePlayer(g1, p1);
 			GamePlayer gp2 =  new GamePlayer(g1, p2);
+			GamePlayer gp3 =  new GamePlayer(g2, p3);
 
 
 			repositoryGamePlayer.save(gp1);
 			repositoryGamePlayer.save(gp2);
-
+			repositoryGamePlayer.save(gp3);
 
 			List<String> l1= new ArrayList<String>();
 			l1.add("H2");

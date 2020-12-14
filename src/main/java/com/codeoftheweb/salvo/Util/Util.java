@@ -31,7 +31,6 @@ public class Util {
         return opponent;
     }
 
-
       public static List<String> getLocatiosByType(String type, GamePlayer self){
         return  self.getShips().size()  ==  0 ? new ArrayList<>() : self.getShips().stream().filter(ship -> ship.getType().equals(type)).findFirst().get().getShipLocations();
     }
@@ -44,4 +43,15 @@ public class Util {
                     {"destroyer", 3},
                     {"patrolboat", 2}
             }).collect(toMap(data -> (String)data[0], data -> (Integer)data[1]));
+
+    public static String stateGame(GamePlayer gamePlayer){
+
+        if (gamePlayer.getShips().isEmpty()) {
+            return "PLACESHIPS";
+        }else if(gamePlayer.getGame().getGamePlayers().size()==1){
+            return "WAITINGFOROPP";
+        }else {
+            return "PLAY";
+        }
+    }
 }

@@ -66,7 +66,8 @@ public class GameController {
         if (player == null) {
             return new ResponseEntity<>("NO esta autorizado", HttpStatus.UNAUTHORIZED);
         }
-        Game game = repositoryGame.save(new Game());
+        Game game = new Game();
+        repositoryGame.save(game);
         GamePlayer gamePlayer = repositoryGamePlayer.save(new GamePlayer(game, player));
         return new ResponseEntity<>(Util.makeMap("gpid", gamePlayer.getId()), HttpStatus.CREATED);
     }

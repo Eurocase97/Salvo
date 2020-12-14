@@ -55,8 +55,6 @@ public class DtoGamePlayer {
         Map<String, Object> dto = new LinkedHashMap<>();
         Map<String, Object> mapHit = new LinkedHashMap<>();
         DtoHit hits= new DtoHit();
-        mapHit.put("self", hits.makeHitsDTO(gamePlayer));
-        mapHit.put("opponent", hits.makeHitsDTO(Util.getOpponent(gamePlayer)));
         dto.put("id", this.gamePlayer.getGame().getId());
         dto.put("created", this.gamePlayer.getGame().getDate());
         dto.put("gamePlayers", this.gamePlayer.getGame().getGamePlayers()
@@ -77,8 +75,15 @@ public class DtoGamePlayer {
                                       return  dtoSalvo.makeSalvoDTO(salvo);
                         }))
                 .collect(Collectors.toList()));
+        if(gamePlayer.getGame().getGamePlayers().size()==2) {
+            mapHit.put("self", hits.makeHitsDTO(gamePlayer));
+            mapHit.put("opponent", hits.makeHitsDTO(Util.getOpponent(gamePlayer)));
+        }else {
+            mapHit.put("self", new ArrayList<>());
+            mapHit.put("opponent", new ArrayList<>());
+        }
         dto.put("hits", mapHit);
-        dto.put("gameState", "PLAY");
-        return  dto;
+        dto.put("gameState", Util.stateGame(gamePlayer));
+        return dto;
     }
 }
