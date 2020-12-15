@@ -1,5 +1,6 @@
 package com.codeoftheweb.salvo.Util;
 
+import com.codeoftheweb.salvo.DTO.DtoHit;
 import com.codeoftheweb.salvo.Model.GamePlayer;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -46,9 +47,21 @@ public class Util {
 
     public static String stateGame(GamePlayer gamePlayer){
 
+        if(gamePlayer.getGame().getGamePlayers().size()==2) {
+            DtoHit dtoHit= new DtoHit();
+           int mySelfImpact= dtoHit.makeDagame(gamePlayer);
+           int opponentImpact= dtoHit.makeDagame(getOpponent(gamePlayer));
+            if(mySelfImpact==17 && opponentImpact==17){
+                return  "TIE";
+            }else if(mySelfImpact==17){
+                return "LOSE";
+            }else if(opponentImpact==17){
+                return "WON";
+            }
+        }
         if (gamePlayer.getShips().isEmpty()) {
             return "PLACESHIPS";
-        }else if(gamePlayer.getGame().getGamePlayers().size()==1){
+        }else if( (gamePlayer.getGame().getGamePlayers().size()==1) || getOpponent(gamePlayer).getShips().size()==0 ){
             return "WAITINGFOROPP";
         }else {
             return "PLAY";

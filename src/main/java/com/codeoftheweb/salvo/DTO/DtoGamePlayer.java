@@ -86,4 +86,5 @@ public class DtoGamePlayer {
         dto.put("gameState", Util.stateGame(gamePlayer));
         return dto;
     }
+
 }
