@@ -42,15 +42,11 @@ public class DtoGame {
                 .stream()
                 .map(gamePlayer -> dtoGamePlayer.makeGamePlayerDTO(gamePlayer))
                 .collect(Collectors.toList()));
-        dto.put("scores", game.getGamePlayers()
-                .stream()
-                .flatMap(gamePlayer -> gamePlayer.getPlayer().getScores()
-                        .stream()
-                        .map(score -> {
+        dto.put("scores", game.getScores()
+                .stream().map(score -> {
                             DtoScore scoreDTO = new DtoScore();
                             return scoreDTO.makeScoreDto(score);
-                        }))
-                .collect(Collectors.toList()));
+                        }).collect(Collectors.toList()));
         return dto;
     }
 
@@ -64,15 +60,11 @@ public class DtoGame {
                     DtoGamePlayer gamePlayerDTO = new DtoGamePlayer(gamePlayer);
                     return gamePlayerDTO.makeGamePlayerDTO();})
                 .collect(Collectors.toList()));
-        dto.put("scores", this.game.getGamePlayers()
-                .stream()
-                .flatMap(gamePlayer -> gamePlayer.getPlayer().getScores()
-                        .stream()
-                        .map(score -> {
-                            DtoScore scoreDTO = new DtoScore();
-                            return scoreDTO.makeScoreDto(score);
-                        }))
-                .collect(Collectors.toList()));
+        dto.put("scores", game.getScores()
+                .stream().map(score -> {
+                    DtoScore scoreDTO = new DtoScore();
+                    return scoreDTO.makeScoreDto(score);
+                }).collect(Collectors.toList()));
         return dto;
     }
 }

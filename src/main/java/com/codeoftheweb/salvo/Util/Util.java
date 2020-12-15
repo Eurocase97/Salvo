@@ -52,9 +52,9 @@ public class Util {
            int opponentImpact= dtoHit.makeDagame(getOpponent(gamePlayer));
             if(mySelfImpact==17 && opponentImpact==17){
                 return  "TIE";
-            }else if(mySelfImpact==17){
+            }else if(mySelfImpact==17 && gamePlayer.getSalvos().size()==getOpponent(gamePlayer).getSalvos().size()){
                 return "LOSE";
-            }else if(opponentImpact==17){
+            }else if(opponentImpact==17 && gamePlayer.getSalvos().size()==getOpponent(gamePlayer).getSalvos().size()){
                 return "WON";
             }
         }

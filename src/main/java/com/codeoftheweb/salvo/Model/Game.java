@@ -59,4 +59,8 @@ public class Game {
     public boolean addGameScore(Score newScore){
         return  scores.add(newScore);
     }
+
+    public void setScores(Set<Score> scores) {
+        this.scores = scores;
+    }
 }
