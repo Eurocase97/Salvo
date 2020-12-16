@@ -46,16 +46,15 @@ public class Util {
             }).collect(toMap(data -> (String)data[0], data -> (Integer)data[1]));
 
     public static String stateGame(GamePlayer gamePlayer){
-
         if(gamePlayer.getGame().getGamePlayers().size()==2) {
             DtoHit dtoHit= new DtoHit();
            int mySelfImpact= dtoHit.makeDagame(gamePlayer);
            int opponentImpact= dtoHit.makeDagame(getOpponent(gamePlayer));
             if(mySelfImpact==17 && opponentImpact==17){
                 return  "TIE";
-            }else if(mySelfImpact==17){
+            }else if(mySelfImpact==17 && gamePlayer.getSalvos().size()==getOpponent(gamePlayer).getSalvos().size()){
                 return "LOSE";
-            }else if(opponentImpact==17){
+            }else if(opponentImpact==17 && gamePlayer.getSalvos().size()==getOpponent(gamePlayer).getSalvos().size()){
                 return "WON";
             }
         }
@@ -63,7 +62,9 @@ public class Util {
             return "PLACESHIPS";
         }else if( (gamePlayer.getGame().getGamePlayers().size()==1) || getOpponent(gamePlayer).getShips().size()==0 ){
             return "WAITINGFOROPP";
-        }else {
+        }else if(gamePlayer.getGame().getGamePlayers().size()==2  && gamePlayer.getSalvos().size()>getOpponent(gamePlayer).getSalvos().size()) {
+            return "WAIT";
+        }else{
             return "PLAY";
         }
     }

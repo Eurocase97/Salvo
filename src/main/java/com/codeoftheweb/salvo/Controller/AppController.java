@@ -5,7 +5,9 @@ import com.codeoftheweb.salvo.DTO.*;
 import com.codeoftheweb.salvo.Model.Game;
 import com.codeoftheweb.salvo.Model.GamePlayer;
 import com.codeoftheweb.salvo.Model.Player;
+import com.codeoftheweb.salvo.Model.Score;
 import com.codeoftheweb.salvo.Repository.*;
+import com.codeoftheweb.salvo.Util.Util;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,6 +16,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.Instant;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -82,10 +85,60 @@ public class AppController {
                 .map(p -> dtoPlayer.makePlayerScoreDTO(p)).collect(Collectors.toList());
     }
 
-    @RequestMapping("/game_view/{gameId}")
-    public Map<String,Object> getGameView(@PathVariable long gameId){
-        GamePlayer gamePlayer= repositoryGamePlayer.findById(gameId).get();
-        DtoGamePlayer dtoGamePlayer= new DtoGamePlayer(gamePlayer);
-        return dtoGamePlayer.makeGameViewDTO();
+    @RequestMapping(path = "/game_view/{ID}", method = RequestMethod.GET )
+    public ResponseEntity<Map<String, Object>> getGamePlayerView(@PathVariable long ID, Authentication authentication) {
+        if (Util.isGuest(authentication)) {
+            return new ResponseEntity<>(Util.makeMap("error", "Not Logged in"), HttpStatus.UNAUTHORIZED);
+        }
+        Long playerLogged = repositoryPlayer.findByEmail(authentication.getName()).getId();
+        Long playerCheck = repositoryGamePlayer.getOne(ID).getPlayer().getId();
+
+        if (playerLogged != playerCheck){
+            return new ResponseEntity<>(Util.makeMap("error", "This is not your game"), HttpStatus.FORBIDDEN);
+        }
+
+        DtoGamePlayer dtoGame_View = new DtoGamePlayer();
+        GamePlayer gamePlayer = repositoryGamePlayer.getOne(ID);
+        if(Util.stateGame(gamePlayer) == "WON"){
+            if(gamePlayer.getGame().getScores().size()<2) {
+                Set<Score> scores = new HashSet<>();
+                Score score1 = new Score();
+                score1.setPlayer(gamePlayer.getPlayer());
+                score1.setGame(gamePlayer.getGame());
+                score1.setFinishDate(Date.from(Instant.now()));
+                score1.setScore(1D);
+                repositoryScore.save(score1);
+                Score score2 = new Score();
+                score2.setPlayer(Util.getOpponent(gamePlayer).getPlayer());
+                score2.setGame(gamePlayer.getGame());
+                score2.setFinishDate(Date.from(Instant.now()));
+                score2.setScore(0D);
+                repositoryScore.save(score2);
+                scores.add(score1);
+                scores.add(score2);
+                Util.getOpponent(gamePlayer).getGame().setScores(scores);
+            }
+        }
+        if(Util.stateGame(gamePlayer) == "TIE"){
+            if(gamePlayer.getGame().getScores().size()<2) {
+                Set<Score> scores = new HashSet<Score>();
+                Score score1 = new Score();
+                score1.setPlayer(gamePlayer.getPlayer());
+                score1.setGame(gamePlayer.getGame());
+                score1.setFinishDate(Date.from(Instant.now()));
+                score1.setScore(0.5D);
+                repositoryScore.save(score1);
+                Score score2 = new Score();
+                score2.setPlayer(Util.getOpponent(gamePlayer).getPlayer());
+                score2.setGame(gamePlayer.getGame());
+                score2.setFinishDate(Date.from(Instant.now()));
+                score2.setScore(0.5D);
+                repositoryScore.save(score2);
+                scores.add(score1);
+                scores.add(score2);
+                Util.getOpponent(gamePlayer).getGame().setScores(scores);
+            }
+        }
+        return new ResponseEntity<>(dtoGame_View.makeGameViewDTO(repositoryGamePlayer.getOne(ID)), HttpStatus.ACCEPTED);
     }
 }

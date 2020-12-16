@@ -44,7 +44,7 @@ public class SalvoApplication {
 									  RepositoryGame repositoryGame, RepositoryGamePlayer repositoryGamePlayer,
 									  RepositorySalvo repositorySalvo, RepositoryScore repositoryScore) {
 		return (args) -> {
-
+/*
 			Player p1= new Player("Jack Bauer", "j.bauer@ctu.gov", passwordEncoder().encode("123"));
 			Player p2= new Player("Chloe O'Brian ", "juan@gmail",passwordEncoder().encode("123"));
 			Player p3= new Player("kun", "a@gmail",passwordEncoder().encode("123") );
@@ -61,7 +61,6 @@ public class SalvoApplication {
 			GamePlayer gp1 =  new GamePlayer(g1, p1);
 			GamePlayer gp2 =  new GamePlayer(g1, p2);
 			GamePlayer gp3 =  new GamePlayer(g2, p3);
-
 
 			repositoryGamePlayer.save(gp1);
 			repositoryGamePlayer.save(gp2);
@@ -90,13 +89,11 @@ public class SalvoApplication {
 			l5.add("c5");
 			l5.add("c6");
 
-
 			Ship sp1= new Ship(gp1, "carrier",l1);
             Ship sp2= new Ship(gp1, "battleship",l2);
 			Ship sp3= new Ship(gp1, "submarine",l3);
 			Ship sp4= new Ship(gp1, "destroyer",l4);
 			Ship sp5= new Ship(gp1, "patrolboat",l5);
-
 
 			Ship sp6= new Ship(gp2, "carrier",l1);
 			Ship sp7= new Ship(gp2, "battleship",l2);
